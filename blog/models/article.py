@@ -3,14 +3,13 @@ from autoslug import AutoSlugField
 from blog.models import CatagoryModel
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from blog.abstract_models import DateAbstractModel
 
 
-class ArticleModel(models.Model):
+class ArticleModel(DateAbstractModel):
     articleImage = models.ImageField(upload_to="article_images")
     title = models.CharField(max_length=50)
     content = RichTextField()
-    creationDate = models.DateTimeField(auto_now_add=True)
-    editDate = models.DateTimeField(auto_now=True)
     slug = AutoSlugField(populate_from="title", unique=True)
     categories = models.ManyToManyField(CatagoryModel, related_name="article")
     author = models.ForeignKey(
