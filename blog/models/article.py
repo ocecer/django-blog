@@ -13,7 +13,7 @@ class ArticleModel(DateAbstractModel):
     slug = AutoSlugField(populate_from="title", unique=True)
     categories = models.ManyToManyField(CatagoryModel, related_name="article")
     author = models.ForeignKey(
-        "account.CustomUserModel", on_delete=models.CASCADE, related_name="aricles")
+        "account.CustomUserModel", on_delete=models.CASCADE, related_name="articles")
 
     class Meta:
         verbose_name = "Article"
