@@ -1,6 +1,6 @@
 from venv import create
 from django.urls import path, include
-from blog.views import contact, index, category, myArticles, articlePage, createPost, updatePost, deletePost
+from blog.views import contact, index, category, myArticles, articlePage, createPost, updatePost, deletePost, deleteComment
 from blog.views.createPost import createPost
 
 urlpatterns = [
@@ -12,4 +12,5 @@ urlpatterns = [
     path('create-post', createPost, name='create-post'),
     path('update-post/<slug:slug>', updatePost, name='update-post'),
     path('delete-post/<slug:slug>', deletePost, name='delete-post'),
+    path('delete-comment/<int:id>', deleteComment, name='delete-comment'),
 ]

@@ -1,32 +1,33 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %}{{article.title}}{% endblock title %}
 
 {% block content %}
 <div class="card mb-3" style="max-width: 100%">
-    <div class="row g-0">
-        <div class="col-md-4">
-            <img src="{{article.articleImage.url}}" class="img img-fluid rounded-start" alt="..." />
-        </div>
-        <div class="col-md-8">
-            <div class="card-body">
-                <h5 class="card-title">{{ article.title }}</h5>
-                <p class="card-text">
-                    {{article.content|safe}}
-                </p>
-                <p class="card-text">
-                    <small class="text-muted">{{ article.editDate|timesince}} ago</small>
-                    
-                    {% if request.user == article.author %}
-                    <p>
-                      <a href="{% url 'update-post' slug=article.slug %}" class="btn btn-warning">Update</a>
-                      <a href="{% url 'delete-post' slug=article.slug %}" class="btn btn-danger">Delete</a>
-                    </p> 
-                    {% endif %}
-                  </p>
-            </div>
-        </div>
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{article.articleImage.url}}" class="img img-fluid rounded-start" alt="..." />
     </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ article.title }}</h5>
+        <p class="card-text">
+          {{article.content|safe}}
+        </p>
+        <p class="card-text">
+          <small class="text-muted">{{ article.editDate|timesince}} ago</small>
+
+          {% if request.user == article.author %}
+        <p>
+          <a href="{% url 'update-post' slug=article.slug %}" class="btn btn-sm btn-warning">Update</a>
+          <a href="{% url 'delete-post' slug=article.slug %}" class="btn btn-sm btn-danger">Delete</a>
+        </p>
+        {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- <nav aria-label="Page navigation example">
@@ -64,24 +65,44 @@
 </nav> -->
 
 <h5>Comments</h5>
+
+{% if request.user.is_authenticated %}
+<form method="POST">
+  {% csrf_token %}
+  {{ createCommentForm|crispy }}
+  <input type="submit" value="Comment" class='btn btn-sm btn-primary mb-3'>
+</form>
+{% else %}
+<p>Please login to leave a comment</p>
+{% endif %}
+
 {% for comment in comments %}
 <div class="card mb-3" style="max-width: 100%;">
-    <div class="row g-0">
-        <div class="col-md-2">
-            {% if comment.author.avatar %}
-            <img src="{{comment.author.avatar.url}}" class="img-thumbnail img-fluid rounded-start" style="max-height:100px;" alt="...">
-            {% else %}
-            <img src="{% static 'img/no-avatar.png' %}" class="img-thumbnail img-fluid rounded-start justify-content-center" style="max-height:100px;" alt="...">
-            {% endif %}
-        </div>
-        <div class="col-md-10">
-            <div class="card-body">
-                <h5 class="card-title">{{comment.auhor.username}}</h5>
-                <p class="card-text">{{comment.comment}}</p>
-                <p class="card-text"><small class="text-muted">{{comment.editDate|timesince}} ago</small></p>
-            </div>
-        </div>
+  <div class="row g-0">
+    <div class="col-md-2">
+      {% if comment.author.avatar %}
+      <img src="{{comment.author.avatar.url}}" class="img-thumbnail img-fluid rounded-start" style="max-height:100px;"
+        alt="...">
+      {% else %}
+      <img src="{% static 'img/no-avatar.png' %}" class="img-thumbnail img-fluid rounded-start justify-content-center"
+        style="max-height:100px;" alt="...">
+      {% endif %}
     </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">{{comment.auhor.username}}</h5>
+        <p class="card-text">{{comment.comment}}</p>
+        <p class="card-text"><small class="text-muted">{{comment.editDate|timesince}} ago</small></p>
+
+        {% if request.user == comment.author or request.user == article.author %}
+        <p>
+          <a href="{% url 'delete-comment' id=comment.id %}" class="btn btn-sm btn-danger">Delete</a>
+        </p>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
 </div>
 {% empty %}
 <p>There is not any comment.</p>

@@ -7,3 +7,4 @@ from .articlePage import articlePage
 from .createPost import createPost
 from .updatePost import updatePost
 from .deletePost import deletePost
+from .deleteComment import deleteComment
