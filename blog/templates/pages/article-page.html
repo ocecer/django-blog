@@ -16,7 +16,14 @@
                 </p>
                 <p class="card-text">
                     <small class="text-muted">{{ article.editDate|timesince}} ago</small>
-                </p>
+                    
+                    {% if request.user == article.author %}
+                    <p>
+                      <a href="{% url 'update-post' slug=article.slug %}" class="btn btn-warning">Update</a>
+                      <a href="{% url 'delete-post' slug=article.slug %}" class="btn btn-danger">Delete</a>
+                    </p> 
+                    {% endif %}
+                  </p>
             </div>
         </div>
     </div>

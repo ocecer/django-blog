@@ -17,7 +17,12 @@
       <th scope="row">{{ article.id }}</th>
       <td>{{ article.title }}</td>
       <td>{{ article.editDate }}</td>
-      <td>sonra eklenecek</td>
+      <td>
+        <p>
+          <a href="{% url 'update-post' slug=article.slug %}" class="btn btn-sm btn-warning">Update</a>
+          <a href="{% url 'delete-post' slug=article.slug %}" class="btn btn-sm btn-danger">Delete</a>
+        </p> 
+      </td>
     </tr>
     {% empty %}
     <p>There is not any article to show.</p>
