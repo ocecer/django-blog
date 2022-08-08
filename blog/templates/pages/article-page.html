@@ -76,13 +76,7 @@
 <p>Please login to leave a comment</p>
 {% endif %}
 
-{% if messages %}
-{% for message in messages %}
-<div class="alert alert-warning" role="alert">
-  {{ message }}
-</div>
-{% endfor %}
-{% endif %}
+{% include 'components/message-success.html' %}
 
 {% for comment in comments %}
 <div class="card mb-3" style="max-width: 100%;">

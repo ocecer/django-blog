@@ -21,11 +21,13 @@
         <p>
           <a href="{% url 'update-post' slug=article.slug %}" class="btn btn-sm btn-warning">Update</a>
           <a href="{% url 'delete-post' slug=article.slug %}" class="btn btn-sm btn-danger">Delete</a>
-        </p> 
+        </p>
       </td>
     </tr>
     {% empty %}
-    <p>There is not any article to show.</p>
+    <div class="alert alert-warning">
+      <p>You dont have any articles yet.</p>
+    </div>
     {% endfor %}
   </tbody>
 </table>
