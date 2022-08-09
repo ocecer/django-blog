@@ -1,15 +1,15 @@
-from django.shortcuts import render, get_object_or_404
-from blog.models import ArticleModel, CatagoryModel
-from django.core.paginator import Paginator
+from msilib.schema import ListView
+from django.shortcuts import get_object_or_404
+from blog.models import CatagoryModel
+from django.views.generic import ListView
 
 
-def category(request, categorySlug):
-    category = get_object_or_404(CatagoryModel, slug=categorySlug)
-    articles = category.article.order_by("-id")
-    page = request.GET.get('page')
-    paginator = Paginator(articles, 1)
+class CategoryListView(ListView):
+    template_name = 'pages/category.html'
+    context_object_name = 'articles'
+    paginate_by = 10
 
-    return render(request, "pages/category.html", context={
-        "articles": paginator.get_page(page),
-        "categoryName": category.categoryName
-    })
+    def get_queryset(self):
+        category = get_object_or_404(
+            CatagoryModel, slug=self.kwargs['categorySlug'])
+        return category.article.all().order_by('-id')

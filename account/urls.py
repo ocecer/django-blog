@@ -1,6 +1,6 @@
 from re import template
 from django.urls import path
-from account.views import logOut, changePassword, editProfile, signup
+from account.views import logOut, changePassword, editProfile, signup, ProileDetailView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout', logOut, name='logout'),
     path('change-password', changePassword, name='change-password'),
     path('edit-profile', editProfile, name='edit-profile'),
+    path('user/<str:username>', ProileDetailView.as_view(), name='profile'),
 ]

@@ -1,10 +1,9 @@
-import imp
 from .index import index
-from .contact import contact
-from .category import category
+from .contact import ContactFormView
+from .category import CategoryListView
 from .myArticles import myArticles
-from .articlePage import articlePage
-from .createPost import createPost
-from .updatePost import updatePost
-from .deletePost import deletePost
+from .articlePage import ArticleView
+from .createPost import CreatePostView
+from .updatePost import UpdatePostView
+from .deletePost import DeletePostView
 from .deleteComment import deleteComment

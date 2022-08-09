@@ -1,16 +1,24 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from blog.forms import ArticleUpdateModelForm
+from django.shortcuts import get_object_or_404
 from blog.models import ArticleModel
-from django.contrib.auth.decorators import login_required
+from django.views.generic import UpdateView
+from django.urls import reverse, reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-@login_required(login_url='/')
-def updatePost(request, slug):
-    article = get_object_or_404(ArticleModel, slug=slug, author=request.user)
-    form = ArticleUpdateModelForm(
-        request.POST or None, files=request.FILES or None, instance=article)
+class UpdatePostView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('signin')
+    template_name = 'pages/update-post.html'
+    fields = ('title', 'content', 'articleImage', 'categories')
 
-    if form.is_valid():
-        form.save()
-        return redirect('article-page', slug=article.slug)
-    return render(request, 'pages/update-post.html', context={'form': form})
+    def get_object(self):
+        article = get_object_or_404(
+            ArticleModel,
+            slug=self.kwargs.get('slug'),
+            author=self.request.user
+        )
+        return article
+
+    def get_success_url(self):
+        return reverse('article-page', kwargs={
+            'slug': self.get_object().slug
+        })
