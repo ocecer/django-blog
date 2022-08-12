@@ -2,8 +2,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from blog.models import ArticleModel
 from blog.forms import CommentCreateModelForm
 from django.views import View
-from django.contrib import messages
 import logging
+
 
 logger = logging.getLogger('read')
 
@@ -29,7 +29,7 @@ class ArticleView(View):
     def post(self, request, slug):
         article = get_object_or_404(ArticleModel, slug=slug)
         createCommentForm = CommentCreateModelForm(data=request.POST)
-        
+
         if createCommentForm.is_valid():
             comment = createCommentForm.save(commit=False)
             comment.author = request.user
@@ -54,7 +54,7 @@ class ArticleView(View):
 #             comment.author = request.user
 #             comment.article = article
 #             comment.save()
-    
+
 #     createCommentForm = CommentCreateModelForm()
 
 #     return render(request, 'pages/article-page.html', context={

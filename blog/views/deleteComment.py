@@ -9,6 +9,6 @@ def deleteComment(request, id):
     comment = get_object_or_404(CommentModel, id=id)
     if comment.author == request.user or comment.article.author == request.user:
         comment.delete()
-        messages.success(request,"Comment deleted successfully.")
+        messages.success(request, "Comment deleted successfully.")
         return redirect('article-page', slug=comment.article.slug)
     return redirect('home')

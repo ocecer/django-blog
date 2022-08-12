@@ -1,11 +1,13 @@
 from django.urls import path, include
 from blog.views import ContactFormView, index, CategoryListView, myArticles, ArticleView, CreatePostView, UpdatePostView, DeletePostView, deleteComment
-# from blog.views.createPost import CreatePostView
 from django.views.generic import TemplateView, RedirectView
+
 
 urlpatterns = [
     path('', index, name='home'),
     path('contact', ContactFormView.as_view(), name='contact'),
+    path('message-sent', TemplateView.as_view(template_name='pages/message-sent.html'),
+         name='message-sent'),
     path('about-us', TemplateView.as_view(template_name='pages/about-us.html'),
          name='about-us'),
     path('redirect', RedirectView.as_view(url='/'), name='redirect'),
