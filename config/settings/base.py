@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from sentry_sdk.integrations.django import DjangoIntegration
+import sentry_sdk
 import os
 from pathlib import Path
 from re import M
@@ -148,9 +150,6 @@ LOGGING = {
     }
 }
 
-
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
 sentry_sdk.init(
     dsn=env('SENTRY_DSN'),
