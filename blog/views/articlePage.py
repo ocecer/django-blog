@@ -5,7 +5,7 @@ from django.views import View
 import logging
 
 
-logger = logging.getLogger('read')
+logger = logging.getLogger('post_read')
 
 
 class ArticleView(View):
@@ -16,7 +16,7 @@ class ArticleView(View):
         article = get_object_or_404(ArticleModel, slug=slug)
 
         if request.user.is_authenticated:
-            logger.info('read:' + request.user.username)
+            logger.info('post read:' + request.user.username)
 
         comments = article.comments.all()
 

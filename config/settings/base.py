@@ -119,3 +119,31 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple_format': {
+            'format': '{process:d} {thread:d} {asctime} {levelname} {message} {name}',
+            'style': '{'
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler'
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'logs/post_read.log',
+            'formatter': 'simple_format'
+        }
+    },
+    'loggers': {
+        'post_read': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO'
+        }
+    }
+}
